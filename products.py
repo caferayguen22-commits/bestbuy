@@ -1,8 +1,8 @@
 class Product:
-    """Repräsentiert ein Produkt im Best Buy Geschäft."""
+    """Represents a product in the Best Buy store."""
 
     def __init__(self, name: str, price: float, quantity: int):
-        """Initialisiert ein Produkt mit Name, Preis und Menge."""
+        """Initializes a product with validation."""
         if not name:
             raise ValueError("Der Produktname darf nicht leer sein.")
         if price < 0:
@@ -16,11 +16,11 @@ class Product:
         self.active = True
 
     def get_quantity(self) -> int:
-        """Gibt die aktuelle Menge des Produkts zurück."""
+        """Returns the current stock quantity."""
         return self.quantity
 
     def set_quantity(self, quantity: int):
-        """Setzt die Menge des Produkts und deaktiviert es, wenn die Menge 0 ist."""
+        """Updates the stock quantity and deactivates if stock hits 0."""
         if quantity < 0:
             raise ValueError("Menge darf nicht negativ sein.")
         self.quantity = quantity
@@ -28,23 +28,23 @@ class Product:
             self.active = False
 
     def is_active(self) -> bool:
-        """Gibt zurück, ob das Produkt aktiv ist."""
+        """Returns whether the product is active."""
         return self.active
 
     def activate(self):
-        """Aktiviert das Produkt."""
+        """Activates the product."""
         self.active = True
 
     def deactivate(self):
-        """Deaktiviert das Produkt."""
+        """Deactivates the product."""
         self.active = False
 
     def show(self):
-        """Gibt die String-Repräsentation des Produkts auf der Konsole aus."""
+        """Prints the product details to the console."""
         print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
 
     def buy(self, requested_quantity: int) -> float:
-        """Führt den Kauf einer bestimmten Menge aus."""
+        """Processes the purchase of a specific quantity."""
         if not self.active:
             raise ValueError("Dieses Produkt ist derzeit nicht aktiv.")
         if requested_quantity > self.get_quantity():
@@ -52,7 +52,7 @@ class Product:
         if requested_quantity <= 0:
             raise ValueError("Kaufmenge muss größer als 0 sein.")
 
-        # Nutzung von set_quantity & get_quantity wahrt das Kapselungsprinzip
+        # Shovals wichtigste Korrektur: Kapselung über Getter/Setter wahren
         new_quantity = self.get_quantity() - requested_quantity
         self.set_quantity(new_quantity)
 

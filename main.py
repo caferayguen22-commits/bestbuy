@@ -2,7 +2,7 @@ import products
 import store
 
 def display_menu():
-    """Zeigt das Hauptmenü an."""
+    """Displays the main selection menu."""
     print("\n   Store Menu")
     print("  -----------")
     print("1. List all products in Store")
@@ -11,7 +11,7 @@ def display_menu():
     print("4. Quit")
 
 def handle_list_products(best_buy_store):
-    """Listet alle aktuell verfügbaren Produkte auf."""
+    """Handles showing all active products to the user."""
     all_products = best_buy_store.get_all_products()
     if not all_products:
         print("No active products available.")
@@ -21,12 +21,12 @@ def handle_list_products(best_buy_store):
         product.show()
 
 def handle_total_quantity(best_buy_store):
-    """Zeigt die Gesamtmenge an."""
+    """Handles showing the total amount of items in store."""
     total_quantity = best_buy_store.get_total_quantity()
     print(f"Total amount in store: {total_quantity}")
 
 def handle_order(best_buy_store):
-    """Verarbeitet die interaktive Bestellung eines Benutzers mit Fehlerabsicherung."""
+    """Processes interactive user orders securely step by step."""
     all_products = best_buy_store.get_all_products()
     if not all_products:
         print("No products available to order.")
@@ -66,7 +66,7 @@ def handle_order(best_buy_store):
         print("Order canceled.")
         return
 
-    # Try-Except block fängt Fehler wie unzureichenden Lagerbestand ab
+    # Try-Except fängt Fehler wie unzureichenden Lagerbestand ab
     try:
         price = best_buy_store.order(shopping_list)
         print(f"Order cost: {price} dollars.")
@@ -74,7 +74,7 @@ def handle_order(best_buy_store):
         print(f"Order failed: {error}")
 
 def start(best_buy_store):
-    """Steuert die Hauptschleife des Programms."""
+    """Main menu loop dividing input processing into modular functions."""
     while True:
         display_menu()
         choice = input("Please choose a number: ").strip()
@@ -92,7 +92,7 @@ def start(best_buy_store):
             print("Error: Invalid choice. Please try again.")
 
 def main():
-    """Einstiegspunkt der Anwendung."""
+    """Application setup and entrypoint."""
     product_list = [
         products.Product("MacBook Air M2", price=1450, quantity=100),
         products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
