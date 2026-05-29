@@ -1,45 +1,36 @@
 from typing import List
-import products
+from products import Product
 
 class Store:
+    """Repräsentiert das Geschäft, das Produkte verwaltet."""
 
-    def __init__(self, products):
+    def __init__(self, products: List[Product]):
+        """Initialisiert das Geschäft und validiert den Typ der Produktliste."""
+        if not isinstance(products, list) or not all(isinstance(p, Product) for p in products):
+            raise ValueError("Der Parameter 'products' muss eine Liste von Product-Instanzen sein.")
         self.products = products
 
-    def add_product(self, product):
-        self.products.append(product)
+    def add_product(self, product: Product):
+        """Fügt ein Produkt zum Geschäft hinzu."""
+        if isinstance(product, Product):
+            self.products.append(product)
 
-    def remove_product(self, product):
+    def remove_product(self, product: Product):
+        """Entfernt ein Produkt aus dem Geschäft."""
         if product in self.products:
             self.products.remove(product)
 
-
     def get_total_quantity(self) -> int:
-        total = 0
-        for product in self.products:
-            total += product.get_quantity()
-        return total
+        """Gibt die Gesamtmenge aller Produkte unter Verwendung von sum() zurück."""
+        return sum(product.get_quantity() for product in self.products)
 
-    def get_all_products(self) -> List[products.Product]:
-        active_products = []
-        for product in self.products:
-            if product.is_active():
-                active_products.append(product)
-        return active_products
+    def get_all_products(self) -> List[Product]:
+        """Gibt alle aktiven Produkte im Geschäft zurück."""
+        return [product for product in self.products if product.is_active()]
 
-    def order(self, shopping_list) -> float:
+    def order(self, shopping_list: List[tuple]) -> float:
+        """Verarbeitet eine Bestellung basierend auf einer Einkaufsliste."""
         total_price = 0.0
         for product, quantity in shopping_list:
             total_price += product.buy(quantity)
         return total_price
-
-if __name__ == "__main__":
-    product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
-                    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                    products.Product("Google Pixel 7", price=500, quantity=250),
-                   ]
-
-    best_buy = Store(product_list)
-    products = best_buy.get_all_products()
-    print(best_buy.get_total_quantity())
-    print(best_buy.order([(products[0], 1), (products[1], 2)]))
